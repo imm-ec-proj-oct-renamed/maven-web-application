@@ -41,7 +41,7 @@ out.println("Server Host Name :: "+inetAddress.getHostName());
 		Mithun Technologies, 
 		Marathahalli,
 		Bengaluru,
-		+91 9980923216 and 
+		+91 9000470547 and 
 		contact2bic@gmail.com
 		<br>
 		<a href="mailto:Devopstrainingblr@Gmail.com">Mail to Mithun Technologies</a>
