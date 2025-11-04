@@ -42,7 +42,7 @@ out.println("Server Host Name :: "+inetAddress.getHostName());
 		Marathahalli,
 		Bengaluru,
 		+91 9980923216 and 
-		Devopstrainingblr@Gmail.com
+		contact2bic@gmail.com
 		<br>
 		<a href="mailto:Devopstrainingblr@Gmail.com">Mail to Mithun Technologies</a>
 	</span>
