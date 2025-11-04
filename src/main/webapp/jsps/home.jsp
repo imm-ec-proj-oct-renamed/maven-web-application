@@ -13,7 +13,7 @@
 <h1 align="center">Mobile Number: +91 9000470547</h1>
 <h1 align="center">IIII is a Very Good PERSON for Learning AWS DevOps, Jenkins, Docker, Kubernetes, GitOps, ArgoCD, Terraform and Amazon Web Services</h1>
 
-<h1 align="center">Trainer Name: Bhaskar Reddy Lacchannagari</h1>
+<h1 align="center">Trainer Name: Immaniyelu Battula</h1>
 
 <hr>
 <br>
