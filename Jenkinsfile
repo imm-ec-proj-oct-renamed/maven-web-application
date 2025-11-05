@@ -1,84 +1,24 @@
-pipeline
-{
-  agent any
-  
-  tools
-  {
-    maven 'Maven_3.8.2'
-  }
-  
-  triggers
-  {
-    pollSCM('* * * * *')
-  }
-  
-  options
-  {
-    timestamps()
-    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5'))
-  }
-  
-  stages
-  {
-    stage('Checkout Code from GitHub')
-    {
-      steps()
-      {
-        git branch: 'development', credentialsId: '957b543e-6f77-4cef-9aec-82e9b0230975', url: 'https://github.com/devopstrainingblr/maven-web-application-1.git'
-      }
-    }
-    
-    stage('Build Project')
-    {
-      steps()
-      {
-        sh "mvn clean package"
-      }
-    }
-    
-    stage('Execute SonarQube Report')
-    {
-      steps()
-      {
-        sh "mvn clean sonar:sonar"
-      }
-    }
-    
-    stage('Upload Artifacts to Sonatype Nexus')
-    {
-      steps()
-      {
-        sh "mvn clean deploy"
-      }
-    }
-    
-    stage('Deploy Application to Tomcat')
-    {
-      steps()
-      {
-        sshagent(['bfe1b3c1-c29b-4a4d-b97a-c068b7748cd0'])
-        {
-          sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@35.154.190.162:/opt/apache-tomcat-9.0.50/webapps/"
-        }
-      }
-    }
-  }
+node{
 
-post
+def mavenhome=tool name:"maven-3.9.8"
+
+stage('Checkoutcode')
 {
-  success
-  {
-    emailext to: 'devopstrainingblr@gmail.com,mithuntechnologies@yahoo.com',
-    subject: "Pipeline Build is Over Build # is ${env.BUILD_NUMBER} and Build Status is ${currentBuild.result}",
-    body: "Pipeline Build is Over Build # is ${env.BUILD_NUMBER} and Build Status is ${currentBuild.result}",
-    replyTo: 'devopstrainingblr@gmail.com'
-  }
-  failure
-  {
-    emailext to: 'devopstrainingblr@gmail.com,mithuntechnologies@yahoo.com',
-    subject: "Pipeline Build is Over Build # is ${env.BUILD_NUMBER} and Build Status is ${currentBuild.result}",
-    body: "Pipeline Build is Over Build # is ${env.BUILD_NUMBER} and Build Status is ${currentBuild.result}",
-    replyTo: 'devopstrainingblr@gmail.com'
-    }
-  }
+git changelog: false, poll: false, url: 'https://github.com/imm-ec-proj-oct-renamed/maven-web-application.git'
+}
+stage('Build'){
+ sh "${mavenhome}/bin/mvn clean package"
+}
+stage('sonarqubereport'){
+ sh "${mavenhome}/bin/mvn clean package sonar:sonar"
+}
+stage('upload artifacts'){
+ sh "${mavenhome}/bin/mvn clean package deploy"
+}
+stage('deployappintotomcat'){
+
+sshagent(['tomcatserver']) {
+   sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war opc@10.10.2.235:/usr/local/tomcat9/webapps"
+}
+}
 }
