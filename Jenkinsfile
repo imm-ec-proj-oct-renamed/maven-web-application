@@ -20,5 +20,8 @@ stage('deployappintotomcat'){
 sshagent(['tomcatserver']) {
    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war opc@10.10.2.235:/usr/local/tomcat9/webapps"
 }
+ stage('sendemailnotification'){
+  emailext body: '', subject: 'Build success ', to: 'immaniyelu.battula@gmail.com'
+ }
 }
 }
